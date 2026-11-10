@@ -1,0 +1,8 @@
+.DS_Store
+*.pem
+*.tfstate*
+.env
+__pycache__/
+.terraform/
+*.tfstate*
+*.tfvars
