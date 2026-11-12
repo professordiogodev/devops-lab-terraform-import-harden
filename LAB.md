@@ -2,9 +2,19 @@
 
 ## The situation
 
-Clippy's marketing team downloads a CSV export of link clicks every month. An intern created the bucket for it by hand in the console last year and has since left. Nobody remembers the settings. You open it and find three months of customer data, no versioning, no tags, no lifecycle rule and no policy.
+**Audit request AR-0147** - *Marketing click-export bucket*
 
-The CTO asks two things: *"Can you put it under Terraform without losing a single file?"* and *"Can you make sure nobody can quietly change it again?"* Creating a new bucket and copying the files is the lazy answer, and it breaks every link that points to the old one. You will **adopt** the existing bucket instead, harden it in code, and then catch a colleague who changes it behind your back.
+| Item | Finding |
+|------|---------|
+| Owner | an intern who has left |
+| Content | three months of customer click data |
+| Versioning | none |
+| Tags | none |
+| Lifecycle rule | none |
+| Policy | none |
+| In code | no, created by hand in the console |
+
+The CTO asks two questions: *"Can you put it under Terraform without losing a single file?"* and *"Can you make sure nobody can quietly change it again?"* A new bucket plus a copy is the lazy answer, and it breaks every link that points to the old one. You will **adopt** the existing bucket with an `import` block, harden it in code one setting at a time, and catch a colleague who changes it behind your back.
 
 > **Your mission**
 > - Bring the existing bucket under Terraform with an `import` block, **without replacing it**
