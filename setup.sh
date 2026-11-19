@@ -3,7 +3,8 @@
 set -u
 cd "$(dirname "$0")"
 ACCOUNT=$(aws sts get-caller-identity --query Account --output text 2>/dev/null) || { echo "No working AWS credentials (aws sts get-caller-identity fails)." >&2; exit 1; }
-B="clippy-exports-$ACCOUNT"
+STUDENT=$(bash "$(dirname "$0")/.lab/handle.sh") || exit 1
+B="clippy-exports-$STUDENT-$ACCOUNT"
 R=us-east-1
 if aws s3api head-bucket --bucket "$B" 2>/dev/null; then echo "Bucket $B already exists. Nothing to do."; exit 0; fi
 aws s3api create-bucket --bucket "$B" --region $R >/dev/null || exit 1

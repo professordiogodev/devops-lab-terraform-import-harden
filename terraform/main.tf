@@ -5,7 +5,17 @@ terraform {
       source  = "hashicorp/aws"
       version = "~> 6.0"
     }
+    external = {
+      source  = "hashicorp/external"
+      version = "~> 2.3"
+    }
   }
+}
+
+# Provided: your handle (your IAM user name, shortened). Everyone in this class shares one AWS account,
+# so every resource is tagged with it and the checks only look at yours.
+data "external" "me" {
+  program = ["bash", "${path.module}/../.lab/handle.sh", "--json"]
 }
 
 provider "aws" {
@@ -13,6 +23,7 @@ provider "aws" {
   default_tags {
     tags = {
       lab     = "terraform-import-harden"
+      student = data.external.me.result.student
       Project = "clippy"
     }
   }
@@ -22,7 +33,7 @@ data "aws_caller_identity" "current" {}
 
 locals {
   # The old bucket. setup.sh created it with this name.
-  bucket = "clippy-exports-${data.aws_caller_identity.current.account_id}"
+  bucket = "clippy-exports-${data.external.me.result.student}-${data.aws_caller_identity.current.account_id}"
 }
 
 # TODO 1 (Part 1): adopt the existing bucket with an `import` block and a matching

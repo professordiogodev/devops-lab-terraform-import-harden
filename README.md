@@ -47,6 +47,10 @@ Dev, your senior engineer, forwards the request with one line: *"There is no doc
 
 **Time:** 75-90 min | **Cost:** free (S3 pennies) | **You need:** an AWS administrator user, the AWS CLI v2, Terraform 1.10 or newer, git and a terminal. Everything here uses `us-east-1`.
 
+> [!NOTE]
+> **Note** You share one AWS account with your whole class. Your **handle** (your IAM user name in lowercase; `.lab/handle.sh` prints it) is part of the bucket name and a `student` tag on everything Terraform creates. The provided `data "external"` block in `terraform/main.tf` reads it for you. The checks and the teardown only look at your own bucket.
+
+
 <p align="center"><img src="assets/divider.svg" alt="" width="100%"></p>
 
 ## Part 0 - Meet the bucket
@@ -57,10 +61,10 @@ Dev, your senior engineer, forwards the request with one line: *"There is no doc
 ./setup.sh
 ```
 
-It creates `clippy-exports-<your account id>` with three customer files under `exports/`. Look at it in the console and with the CLI: what does it have, and what is missing?
+It creates `clippy-exports-<your handle>-<your account id>` with three customer files under `exports/`. Look at it in the console and with the CLI: what does it have, and what is missing?
 
 ```bash
-B=clippy-exports-$(aws sts get-caller-identity --query Account --output text)
+B=clippy-exports-$(.lab/handle.sh)-$(aws sts get-caller-identity --query Account --output text)
 aws s3api get-bucket-versioning --bucket $B
 aws s3api get-public-access-block --bucket $B
 aws s3api get-bucket-lifecycle-configuration --bucket $B
@@ -172,7 +176,7 @@ It checks your code, then reads the **real bucket**: that your three customer fi
 
 ## Level up (optional)
 
-- Add a second bucket `clippy-exports-staging-<account>` from the same configuration with `for_each`, without copy-pasting the settings.
+- Add a second bucket `clippy-exports-staging-<handle>-<account>` from the same configuration with `for_each`, without copy-pasting the settings.
 - Turn the five settings into a small module so any bucket in the company can be hardened the same way.
 - Write the same hardening with `aws s3api` commands in a script. What does Terraform give you that the script does not?
 

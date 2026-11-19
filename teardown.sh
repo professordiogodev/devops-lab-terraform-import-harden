@@ -3,7 +3,8 @@
 set -u
 cd "$(dirname "$0")"
 ACCOUNT=$(aws sts get-caller-identity --query Account --output text 2>/dev/null) || { echo "No working AWS credentials." >&2; exit 1; }
-B="clippy-exports-$ACCOUNT"
+STUDENT=$(bash "$(dirname "$0")/.lab/handle.sh") || exit 1
+B="clippy-exports-$STUDENT-$ACCOUNT"
 if aws s3api head-bucket --bucket "$B" 2>/dev/null; then
   echo "Emptying s3://$B (every version and delete marker)..."
   python3 - "$B" <<'PY'

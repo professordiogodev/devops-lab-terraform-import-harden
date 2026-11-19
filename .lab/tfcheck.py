@@ -3,7 +3,9 @@ import json, os, re, subprocess, sys
 ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 os.chdir(ROOT)
 ACCOUNT = sys.argv[1]
-B = "clippy-exports-" + ACCOUNT
+STUDENT = subprocess.run(["bash", os.path.join(ROOT, ".lab", "handle.sh")], capture_output=True, text=True).stdout.strip()
+print("Your handle (from your IAM user name): " + STUDENT)
+B = "clippy-exports-%s-%s" % (STUDENT, ACCOUNT)
 passed = failed = 0
 
 
