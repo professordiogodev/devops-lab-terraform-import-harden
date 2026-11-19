@@ -21,7 +21,7 @@ provider "aws" {
 data "aws_caller_identity" "current" {}
 
 locals {
-  # The intern's bucket. setup.sh created it with this name.
+  # The old bucket. setup.sh created it with this name.
   bucket = "clippy-exports-${data.aws_caller_identity.current.account_id}"
 }
 
