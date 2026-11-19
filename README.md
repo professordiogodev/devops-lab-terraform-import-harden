@@ -22,7 +22,7 @@
 
 ## 🎬 The situation
 
-<p align="center"><img src="assets/gifs/situation.gif" width="300" alt="Code, state and the real bucket drifting apart then agreeing"></p>
+<p align="center"><img src="assets/gifs/situation.gif" width="300" alt="Code, state and the real bucket: the bucket is adopted into state, then the plan shows no changes"></p>
 
 **Audit request AR-0147** - *Marketing click-export bucket*
 
